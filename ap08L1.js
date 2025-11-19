@@ -75,7 +75,7 @@ export function init(scene, size, id, offset, texture) {
         scene.add(bldg);
     }
     makeBuilding(20, -40, 3);
-    makeBuilding(60, -20, 2);
+    makeBuilding(60, -20, 4);
 
     // コース(描画)
     //制御点を補間して曲線を作る
