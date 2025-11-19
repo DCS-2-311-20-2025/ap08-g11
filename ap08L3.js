@@ -76,7 +76,8 @@ export function init(scene, size, id, offset, texture) {
         scene.add(bldg);
     }
     makeBuilding(-30, 40, 2);
-    makeBuilding(0, 0, 2);
+    makeBuilding(0, 0, 3);
+    makeBuilding(-10, 30, 4);
     // コース(描画)
     course = new THREE.CatmullRomCurve3(
         controlPoints.map((p) => {
