@@ -20,8 +20,8 @@ export const origin = new THREE.Vector3();
 export const controlPoints = [
     [-25,-40],
     [0,-60],
-    [0,0],
-    [25,-20],
+    [10,-30],
+    [-20,0],
     [ 50, 20]
 ]
 export function init(scene, size, id, offset, texture) {
