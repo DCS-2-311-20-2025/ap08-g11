@@ -48,7 +48,47 @@ export function init(scene, size, id, offset, texture) {
     scene.add(plane);
 
     // ビル
-
+    function makeBuilding(x, z, type) {
+        const height = [10, 2, 7, 4, 5];
+        const bldgh = height[type]*5;
+        const geometry = new THREE.BoxGeometry(8, bldgh, 8);
+        const material = new THREE.MeshLambertMaterial({map: texture});
+        const sideUVS = (type*2+1)/11;
+        const sideUVE = (type*2+2)/11;
+        const topUVS = (type*2+2)/11;
+        const topUVE = (type*2+3)/11;
+        const UVS = geometry.getAttribute("uv");
+        for(let i = 0; i < 48; i+=4) {
+            if(i < 16 || i > 22) {
+                UVS.array[i] = sideUVS;
+                UVS.array[i+2] = sideUVE;
+            }
+            else {
+                UVS.array[i] = topUVS;
+                UVS.array[i+2] = topUVE;
+            }
+        }
+        const bldg = new THREE.Mesh(
+            geometry,
+            material
+        )
+        bldg.position.set(-85, 10, 0);
+        scene.add(bldg);
+        const bldg1 = new THREE.Mesh(
+            geometry,
+            material
+        )
+        bldg1.position.set(-68, 7, -20);
+        scene.add(bldg1);
+        const bldg2 = new THREE.Mesh(
+            geometry,
+            material
+        )
+        bldg2.position.set(-20, 5, -20);
+        scene.add(bldg2);
+    }
+    makeBuilding(20, 20, 0);
+    makeBuilding(-10, 10, 2);
     // コース(描画)
     // 制御点を補間して曲線を作る
     course = new THREE.CatmullRomCurve3(
@@ -81,6 +121,22 @@ export function init(scene, size, id, offset, texture) {
 
 // コース(自動運転用)
 export function makeCourse(scene) {
+    const courseVectors = [];
+    const parts = [L2, L3, L4, L1];
+    parts.forEach((part) => {
+        part.controlPoints.forEach((p) => {
+            courseVectors.push(
+                new THREE.Vector3(
+                    p[0] + part.origin.x,
+                    0,
+                    p[1] + part.origin.z,
+                )
+            )
+        });
+    })
+    course = new THREE.CatmullRomCurve3(
+        courseVectors, true
+    )
 }
 
 // カメラを返す
@@ -110,7 +166,9 @@ const carTarget = new THREE.Vector3();
 export function render(scene, car) {
     const time = (clock.getElapsedTime() / 20);
     course.getPointAt(time % 1, carPosition);
-    car.position
+    car.position.copy(carPosition);
+    course.getPointAt((time + 0.01) %1, carTarget);
+    car.lookAt(carTarget);
     camera.lookAt(car.position.x, car.position.y, car.position.z);
     renderer.render(scene, camera);
 }
