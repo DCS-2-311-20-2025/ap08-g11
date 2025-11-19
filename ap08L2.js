@@ -72,9 +72,9 @@ export function init(scene, size, id, offset, texture) {
             geometry,
             material
         )
-        bldg.position.set(-85, 10, 0);
+        bldg.position.set(x, bldgh/2, z);
         scene.add(bldg);
-        const bldg1 = new THREE.Mesh(
+        /*const bldg1 = new THREE.Mesh(
             geometry,
             material
         )
@@ -85,10 +85,11 @@ export function init(scene, size, id, offset, texture) {
             material
         )
         bldg2.position.set(-20, 5, -20);
-        scene.add(bldg2);
+        scene.add(bldg2);*/
     }
-    makeBuilding(20, 20, 0);
-    makeBuilding(-10, 10, 2);
+    makeBuilding(-80, -10, 0);
+    makeBuilding(-68, -20, 0);
+    makeBuilding(-20, -20, 2);
     // コース(描画)
     // 制御点を補間して曲線を作る
     course = new THREE.CatmullRomCurve3(
