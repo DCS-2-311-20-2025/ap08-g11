@@ -61,7 +61,7 @@ export function init(scene, size, id, offset, texture) {
         }), false
     )
    // 曲線から100か所を取り出し、円を並べる
-   const points = course.getpoints(100);
+   const points = course.getPoints(100);
    points.forEach((point)=>{
     const road = new THREE.Mesh(
         new THREE.CircleGeometry(5, 16),
@@ -104,7 +104,13 @@ export function resize() {
 }
 
 // 描画処理
+const clock = new THREE.Clock();
+const carPosition = new THREE.Vector3();
+const carTarget = new THREE.Vector3();
 export function render(scene, car) {
+    const time = (clock.getElapsedTime() / 20);
+    course.getPointAt(time % 1, carPosition);
+    car.position
     camera.lookAt(car.position.x, car.position.y, car.position.z);
     renderer.render(scene, camera);
 }
